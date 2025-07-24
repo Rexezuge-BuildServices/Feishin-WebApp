@@ -37,7 +37,7 @@ FROM scratch
 
 COPY --from=runtime / /
 
-ENV SERVER_URL="https://navidrome-4887c92c-23c8-4553-9fb3.rexezuge.com"
+ENV SERVER_URL="https://navidrome.example.com"
 
 ENV SERVER_TYPE="navidrome"
 

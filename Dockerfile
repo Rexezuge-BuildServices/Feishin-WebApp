@@ -1,22 +1,16 @@
+FROM rexezugedockerutils/cloudflared AS cloudflared
+
+FROM rexezugedockerutils/upx AS upx
+
 FROM debian:12 AS builder
 
 WORKDIR /tmp
 
 # Install Dependencies
-RUN apt-get update \
- && apt-get install -y --no-install-recommends build-essential curl unzip zlib1g-dev libpcre2-dev perl ca-certificates
+RUN apt update \
+ && apt install -y --no-install-recommends build-essential
 
-# Download and Install upx
-ENV UPX_VERSION=5.0.0
-
-RUN curl -L https://github.com/upx/upx/releases/download/v${UPX_VERSION}/upx-${UPX_VERSION}-amd64_linux.tar.xz -o /tmp/upx.tar.xz \
- && tar -xf /tmp/upx.tar.xz -C /tmp \
- && mv /tmp/upx-${UPX_VERSION}-amd64_linux/upx /usr/local/bin/upx
-
-# Download Cloudflare Tunnel and Compress
-RUN curl -L -o /tmp/cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 \
- && chmod +x /tmp/cloudflared \
- && upx --best --lzma /tmp/cloudflared
+COPY --from=upx /upx /usr/local/bin/upx
 
 COPY Init.c /tmp/Init.c
 
@@ -29,7 +23,7 @@ FROM ghcr.io/jeffvli/feishin:latest AS runtime
 
 COPY webApp.conf /etc/nginx/conf.d/webApp.conf
 
-COPY --from=builder /tmp/cloudflared /usr/local/bin/cloudflared
+COPY --from=cloudflared /cloudflared /usr/local/bin/cloudflared
 
 COPY --from=builder /tmp/Init /Init
 

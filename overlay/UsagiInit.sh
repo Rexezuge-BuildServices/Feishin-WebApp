@@ -15,4 +15,4 @@ envsubst < /etc/nginx/templates/settings.js.template > /etc/nginx/conf.d/setting
 
 # Nginx
 mkdir -p /tmp/nginx/logs
-/usr/sbin/nginx -p /tmp/nginx -c /etc/nginx/nginx.conf -g "daemon off;" &
+/usr/sbin/nginx -p /tmp/nginx -c /etc/nginx/nginx.conf -g "daemon off;" > /dev/null 2>&1 &

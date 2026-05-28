@@ -50,6 +50,8 @@ ENV SERVER_NAME="Navidrome"
 
 ENV NODE_URI="https://feishin.local"
 
+ENV WEBSITES_PORT=80
+
 EXPOSE 80/tcp
 
 ENTRYPOINT ["/UsagiInit"]

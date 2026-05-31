@@ -10,10 +10,6 @@ COPY overlay/ /
 
 RUN chmod +x /usr/local/bin/feishin-entrypoint.sh
 
-ENV WEBSITES_PORT=80
-
-EXPOSE 80/tcp
-
 ENTRYPOINT ["/.AppServiceLauncher/launcher.sh"]
 
 CMD ["/usr/local/bin/feishin-entrypoint.sh"]
